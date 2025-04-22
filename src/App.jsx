@@ -4,8 +4,14 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
 import ScrollToTop from "./components/Top";
+
+import DashboardLayout from "./components/DashboardLayout";
+import DashboardHome from "./pages/Dashboard/Home";
+import Bookings from "./pages/dashboard/Bookings";
+import Customers from "./pages/dashboard/Customers";
+import Gallery from "./pages/dashboard/Gallery";
+import Settings from "./pages/dashboard/Settings";
 
 function App() {
   return (
@@ -17,9 +23,16 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Routes>
       </main>
-
       <Footer />
     </div>
   );
