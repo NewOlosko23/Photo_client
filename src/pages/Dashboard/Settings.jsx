@@ -2,7 +2,7 @@ import React from "react";
 
 const Settings = () => {
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-4 max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold mb-6 text-[#41b883]">Settings</h2>
 
       {/* Studio Info */}

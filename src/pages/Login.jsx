@@ -1,12 +1,61 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth(); 
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        "https://photo-server-f6ip.onrender.com/api/auth/login",
+        { email, password }
+      );
+
+      if (response.data.success) {
+        const {
+          token,
+          _id,
+          studioName,
+          email,
+          phone,
+          subscribed,
+          subscriptionType,
+        } = response.data.data;
+
+        const user = {
+          _id,
+          studioName,
+          email,
+          phone,
+          subscribed,
+          subscriptionType,
+        };
+
+        login(token, user);
+
+        setLoading(false);
+        navigate("/dashboard");
+      } else {
+        throw new Error("Login failed.");
+      }
+    } catch (err) {
+      setLoading(false);
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -20,7 +69,7 @@ const Login = () => {
 
         {error && <div className="text-red-600 text-center py-2">{error}</div>}
 
-        <form  className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -66,7 +115,7 @@ const Login = () => {
             type="submit"
             className="w-full bg-[#41b883] text-white py-2 rounded-lg font-medium hover:bg-[#36a674] transition"
           >
-            Login
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 

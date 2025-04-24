@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Header from "./components/Header";
 import ScrollToTop from "./components/Top";
 import BackToTopButton from "./components/scrollToTop";
+import PrivateRoute from "./components/PrivateRoute";
 
 import DashboardLayout from "./components/DashboardLayout";
 import DashboardHome from "./pages/Dashboard/Home";
@@ -19,22 +20,26 @@ function App() {
       <Header />
       <ScrollToTop />
       <BackToTopButton />
-      {/* Main content area */}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* Protected Routes */}
-          <Route>
-            <Route path="/dashboard" element={<DashboardLayout />}>
-              <Route index element={<DashboardHome />} />
-              <Route path="bookings" element={<Bookings />} />
-              <Route path="customers" element={<Customers />} />
-              <Route path="gallery" element={<Gallery />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
+          {/* 🔐 Protected Dashboard Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <DashboardLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<DashboardHome />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
       </main>

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiUser, FiLogOut, FiBell } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-
   const closeMenu = () => setMenuOpen(false);
+
+  const handleLogout = () => {
+    logout();
+    localStorage.removeItem("token");
+    closeMenu();
+  };
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -19,21 +26,45 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8 font-medium text-gray-700">
-          <Link to="/signup" className="hover:text-[#41b883] transition">
-            Get Started
-          </Link>
-          <Link to="/login" className="hover:text-[#41b883] transition">
-            Login
-          </Link>
-          <Link to="/pricing" className="hover:text-[#41b883] transition">
-            Pricing
-          </Link>
-          <Link to="/contact" className="hover:text-[#41b883] transition">
-            Contact
-          </Link>
+          {!user ? (
+            <>
+              <Link to="/signup" className="hover:text-[#41b883] transition">
+                Get Started
+              </Link>
+              <Link to="/login" className="hover:text-[#41b883] transition">
+                Login
+              </Link>
+              <Link to="/pricing" className="hover:text-[#41b883] transition">
+                Pricing
+              </Link>
+              <Link to="/contact" className="hover:text-[#41b883] transition">
+                Contact
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center space-x-4 py-4">
+                {/* Notifications Icon */}
+                <button className="relative cursor-pointer">
+                  <FiBell size={28} />
+                  <span className="absolute top-0 right-0 text-xs text-white bg-red-500 rounded-full w-4 h-4 flex items-center justify-center">
+                    3
+                  </span>
+                </button>
+                {/* Profile Icon */}
+                <Link to="/profile" className="cursor-pointer">
+                  <FiUser size={28} />
+                </Link>
+                {/* Logout Button */}
+                <button onClick={handleLogout} className="text-[#41b883] cursor-pointer">
+                  <FiLogOut size={28} />
+                </button>
+              </div>
+            </>
+          )}
         </nav>
 
-        {/* Hamburger */}
+        {/* Hamburger Button */}
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
@@ -50,34 +81,40 @@ const Header = () => {
           menuOpen ? "block" : "hidden"
         }`}
       >
-        <Link
-          to="/signup"
-          onClick={closeMenu}
-          className="block hover:text-[#41b883]"
-        >
-          Get Started
-        </Link>
-        <Link
-          to="/login"
-          onClick={closeMenu}
-          className="block hover:text-[#41b883]"
-        >
-          Login
-        </Link>
-        <Link
-          to="/pricing"
-          onClick={closeMenu}
-          className="block hover:text-[#41b883]"
-        >
-          Pricing
-        </Link>
-        <Link
-          to="/contact"
-          onClick={closeMenu}
-          className="block hover:text-[#41b883]"
-        >
-          Contact
-        </Link>
+        {!user ? (
+          <>
+            <Link
+              to="/signup"
+              onClick={closeMenu}
+              className="block hover:text-[#41b883]"
+            >
+              Get Started
+            </Link>
+            <Link
+              to="/login"
+              onClick={closeMenu}
+              className="block hover:text-[#41b883]"
+            >
+              Login
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/profile"
+              onClick={closeMenu}
+              className="block hover:text-[#41b883]"
+            >
+              Profile
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="block hover:text-[#41b883]"
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

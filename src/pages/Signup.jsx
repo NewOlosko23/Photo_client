@@ -1,18 +1,86 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
   const [studioName, setStudioName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { signup } = useAuth();
 
   const validatePassword = (pwd) => {
     const regex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
     return regex.test(pwd);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    if (password !== confirmPassword) {
+      setLoading(false);
+      return setError("Passwords do not match.");
+    }
+
+    if (!validatePassword(password)) {
+      setLoading(false);
+      return setError(
+        "Password must contain letter, number, special char, and be at least 8 characters."
+      );
+    }
+
+    try {
+      const response = await axios.post(
+        "https://photo-server-f6ip.onrender.com/api/auth/register",
+        {
+          studioName,
+          email,
+          phone,
+          password,
+          subscriptionType: "trial",
+        }
+      );
+
+      if (response.data.success) {
+        const {
+          token,
+          _id,
+          studioName,
+          email,
+          phone,
+          subscribed,
+          subscriptionType,
+        } = response.data.data;
+
+        const user = {
+          _id,
+          studioName,
+          email,
+          phone,
+          subscribed,
+          subscriptionType,
+        };
+
+        signup(token, user);
+
+        setLoading(false);
+        navigate("/dashboard");
+      } else {
+        throw new Error(response.data.message);
+      }
+    } catch (err) {
+      setLoading(false);
+      setError(err.message || "Signup failed. Try again.");
+    }
   };
 
   return (
@@ -26,10 +94,12 @@ const Signup = () => {
         </p>
 
         {error && (
-          <div className="text-sm text-red-600 font-medium">{error}</div>
+          <div className="text-sm text-red-600 font-medium text-center">
+            {error}
+          </div>
         )}
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Studio Name
@@ -54,6 +124,20 @@ const Signup = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41b883]"
               placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41b883]"
+              placeholder="e.g. +254712345678"
               required
             />
           </div>
@@ -94,7 +178,7 @@ const Signup = () => {
             type="submit"
             className="w-full bg-[#41b883] text-white py-2 rounded-lg font-medium hover:bg-[#36a674] transition"
           >
-            Sign Up
+            {loading ? "Creating..." : "Create Account"}
           </button>
         </form>
 

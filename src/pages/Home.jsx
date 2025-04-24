@@ -206,7 +206,7 @@ const Home = () => {
             updates to help you manage your studio like a pro.
           </p>
 
-          <div className="bg-white p-4 rounded-xl shadow-md flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="bg-white px-1 py-2 rounded-xl shadow-md flex flex-col sm:flex-row items-center justify-center gap-4">
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <FaEnvelope className="text-[#41b883] text-xl" />
               <input
