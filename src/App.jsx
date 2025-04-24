@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/Top";
+import BackToTopButton from "./components/scrollToTop";
 
 import DashboardLayout from "./components/DashboardLayout";
 import DashboardHome from "./pages/Dashboard/Home";
@@ -18,6 +19,8 @@ function App() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <ScrollToTop />
+      <BackToTopButton />
+      {/* Main content area */}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Landing />} />

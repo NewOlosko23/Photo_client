@@ -4,7 +4,10 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -41,23 +44,41 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Nav */}
-      {menuOpen && (
-        <div className="md:hidden bg-white px-4 pb-4 space-y-2 font-medium text-gray-700">
-          <Link to="/signup" className="block hover:text-[#41b883]">
-            Get Started
-          </Link>
-          <Link to="/login" className="block hover:text-[#41b883]">
-            Login
-          </Link>
-          <Link to="/pricing" className="block hover:text-[#41b883]">
-            Pricing
-          </Link>
-          <Link to="/contact" className="block hover:text-[#41b883]">
-            Contact
-          </Link>
-        </div>
-      )}
+      {/* Mobile Nav - overlay with absolute positioning */}
+      <div
+        className={`md:hidden fixed top-16 left-0 w-full bg-white px-4 py-4 space-y-2 font-medium text-gray-700 transition-transform duration-300 z-40 ${
+          menuOpen ? "block" : "hidden"
+        }`}
+      >
+        <Link
+          to="/signup"
+          onClick={closeMenu}
+          className="block hover:text-[#41b883]"
+        >
+          Get Started
+        </Link>
+        <Link
+          to="/login"
+          onClick={closeMenu}
+          className="block hover:text-[#41b883]"
+        >
+          Login
+        </Link>
+        <Link
+          to="/pricing"
+          onClick={closeMenu}
+          className="block hover:text-[#41b883]"
+        >
+          Pricing
+        </Link>
+        <Link
+          to="/contact"
+          onClick={closeMenu}
+          className="block hover:text-[#41b883]"
+        >
+          Contact
+        </Link>
+      </div>
     </header>
   );
 };
