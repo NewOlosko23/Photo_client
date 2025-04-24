@@ -53,9 +53,14 @@ const Home = () => {
     payment: <FaMoneyBill className="text-indigo-500" />,
   };
 
+  const studioName =
+    JSON.parse(localStorage.getItem("user"))?.studioName || "Studio";
+
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Welcome to Studio Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Welcome to <span>{studioName}</span> Studio Dashboard
+      </h1>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
