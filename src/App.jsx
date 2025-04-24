@@ -24,12 +24,15 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardHome />} />
-            <Route path="bookings" element={<Bookings />} />
-            <Route path="customers" element={<Customers />} />
-            <Route path="gallery" element={<Gallery />} />
-            <Route path="settings" element={<Settings />} />
+          {/* Protected Routes */}
+          <Route>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<DashboardHome />} />
+              <Route path="bookings" element={<Bookings />} />
+              <Route path="customers" element={<Customers />} />
+              <Route path="gallery" element={<Gallery />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
           </Route>
         </Routes>
       </main>

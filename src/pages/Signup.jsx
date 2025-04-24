@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [studioName, setStudioName] = useState("");
@@ -7,31 +7,12 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const validatePassword = (pwd) => {
     const regex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
     return regex.test(pwd);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (!validatePassword(password)) {
-      setError(
-        "Password must be at least 8 characters long and include letters, numbers, and special characters."
-      );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    // Submit logic here (e.g., API call)
-    console.log("Signup successful!", { studioName, email, password });
   };
 
   return (
@@ -44,7 +25,11 @@ const Signup = () => {
           Start managing your <span className="text-[#41b883]">studio</span>
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="text-sm text-red-600 font-medium">{error}</div>
+        )}
+
+        <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Studio Name
@@ -104,10 +89,6 @@ const Signup = () => {
               required
             />
           </div>
-
-          {error && (
-            <div className="text-sm text-red-600 font-medium">{error}</div>
-          )}
 
           <button
             type="submit"

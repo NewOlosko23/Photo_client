@@ -1,7 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8 space-y-6">
@@ -12,7 +18,9 @@ const Login = () => {
           Log in to manage your <span className="text-[#41b883]">studio</span>
         </p>
 
-        <form className="space-y-4">
+        {error && <div className="text-red-600 text-center py-2">{error}</div>}
+
+        <form  className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -22,6 +30,8 @@ const Login = () => {
               className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41b883]"
               placeholder="you@example.com"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -34,6 +44,8 @@ const Login = () => {
               className="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#41b883]"
               placeholder="••••••••"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 

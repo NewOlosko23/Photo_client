@@ -139,13 +139,13 @@ const Home = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 text-center py-4">
+      <section className="py-20 text-center">
         <h2 className="text-3xl font-bold mb-4">
           Ready to simplify your studio workflow?
         </h2>
         <Link
           to="/signup"
-          className="bg-[#41b883] py-2 text-white px-6 py-3 rounded-md text-lg hover:bg-[#36a674] transition"
+          className="bg-[#41b883] text-white px-6 py-3 rounded-md text-lg hover:bg-[#36a674] transition"
         >
           Get Started Now
         </Link>
