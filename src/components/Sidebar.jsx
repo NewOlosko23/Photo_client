@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-white shadow-lg p-4">
+    <div className="fixed top-0 left-0 w-64 mt-15 h-screen bg-white shadow-lg p-4 z-50">
       <h2 className="text-xl font-bold mb-6">Studio Dashboard</h2>
       <nav className="flex flex-col gap-3">
         <NavLink to="/dashboard" end>
