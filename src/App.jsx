@@ -3,7 +3,6 @@ import Landing from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import ScrollToTop from "./components/Top";
 import BackToTopButton from "./components/scrollToTop";
 
@@ -39,7 +38,6 @@ function App() {
           </Route>
         </Routes>
       </main>
-      <Footer />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { FaEnvelope } from "react-icons/fa";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const testimonials = [
@@ -253,6 +254,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
